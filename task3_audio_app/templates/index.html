@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Audio Submission</title>
+  <style>
+    body { font-family: sans-serif; max-width: 480px; margin: 40px auto; padding: 0 16px; }
+    label { display: block; margin-top: 14px; font-weight: bold; }
+    input[type=text], input[type=tel] { width: 100%; padding: 8px; margin-top: 4px; box-sizing: border-box; }
+    button { margin-top: 10px; padding: 10px 16px; cursor: pointer; }
+    #status { margin-top: 10px; color: #555; }
+    audio { display: block; margin-top: 10px; width: 100%; }
+    a.list-link { display: inline-block; margin-top: 20px; }
+    .or { text-align: center; margin: 16px 0; color: #999; }
+  </style>
+</head>
+<body>
+  <h2>Submit a voice recording</h2>
+
+  <form id="submitForm" action="/submit" method="post" enctype="multipart/form-data">
+    <label for="name">Name</label>
+    <input type="text" id="name" name="name" required>
+
+    <label for="phone">Phone number</label>
+    <input type="tel" id="phone" name="phone" required>
+
+    <label>Record from your microphone</label>
+    <button type="button" id="recordBtn">Start recording</button>
+    <div id="status"></div>
+    <audio id="preview" controls style="display:none;"></audio>
+
+    <div class="or">— or —</div>
+
+    <label for="fileInput">Upload an audio file instead</label>
+    <input type="file" id="fileInput" name="audio" accept="audio/*">
+
+    <button type="submit">Submit</button>
+  </form>
+
+  <a class="list-link" href="/submissions">See all submissions →</a>
+
+  <script>
+    let mediaRecorder, chunks = [], recordedBlob = null;
+    const recordBtn = document.getElementById('recordBtn');
+    const statusEl = document.getElementById('status');
+    const preview = document.getElementById('preview');
+    const fileInput = document.getElementById('fileInput');
+    const form = document.getElementById('submitForm');
+
+    recordBtn.addEventListener('click', async () => {
+      if (mediaRecorder && mediaRecorder.state === 'recording') {
+        mediaRecorder.stop();
+        recordBtn.textContent = 'Start recording';
+        return;
+      }
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        chunks = [];
+        mediaRecorder = new MediaRecorder(stream);
+        mediaRecorder.ondataavailable = e => chunks.push(e.data);
+        mediaRecorder.onstop = () => {
+          recordedBlob = new Blob(chunks, { type: 'audio/webm' });
+          preview.src = URL.createObjectURL(recordedBlob);
+          preview.style.display = 'block';
+          statusEl.textContent = 'Recording captured. You can play it back above.';
+          fileInput.value = ''; // recorded audio takes priority over file input
+        };
+        mediaRecorder.start();
+        recordBtn.textContent = 'Stop recording';
+        statusEl.textContent = 'Recording... click Stop when done.';
+      } catch (err) {
+        statusEl.textContent = 'Mic access denied or unavailable: ' + err.message;
+      }
+    });
+
+    form.addEventListener('submit', (e) => {
+      // If the user recorded audio in the browser, we need to attach it to the
+      // form manually since it's a Blob, not a real <input type="file">.
+      if (recordedBlob) {
+        e.preventDefault();
+        const dt = new DataTransfer();
+        const file = new File([recordedBlob], 'recording.webm', { type: 'audio/webm' });
+        dt.items.add(file);
+        fileInput.files = dt.files;
+        form.submit();
+      }
+      // else: a normal file was picked in fileInput, let the form submit as-is
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+source,issue_type,detail
+source1,ctc_unit_ambiguous,"Row 4 (Amit Agarwal): CTC given as 4.2 -> treated as lakhs, converted to Rs.420000"
+source1,ctc_unit_ambiguous,"Row 6 (Shreya Gupta): CTC given as 8.3 -> treated as lakhs, converted to Rs.830000"
+source1,ctc_unit_ambiguous,"Row 12 (Nikhil Malhotra): CTC given as 5.1 -> treated as lakhs, converted to Rs.510000"
+source1,ctc_unit_ambiguous,"Row 14 (Ritu Sharma): CTC given as 6.1 -> treated as lakhs, converted to Rs.610000"
+source1,ctc_unit_ambiguous,"Row 15 (Arjun Mishra): CTC given as 5.8 -> treated as lakhs, converted to Rs.580000"
+source1,ctc_unit_ambiguous,"Row 16 (Meera Bhatia): CTC given as 11.2 -> treated as lakhs, converted to Rs.1120000"
+source1,ctc_unit_ambiguous,"Row 17 (Varun Jain): CTC given as 7.6 -> treated as lakhs, converted to Rs.760000"
+source1,ctc_unit_ambiguous,"Row 19 (Kavya Mehta): CTC given as 2.4 -> treated as lakhs, converted to Rs.240000"
+source1,ctc_unit_ambiguous,"Row 20 (Sneha Chopra): CTC given as 10.0 -> treated as lakhs, converted to Rs.1000000"
+source1,ctc_unit_ambiguous,"Row 22 (Pooja Gupta): CTC given as 11.9 -> treated as lakhs, converted to Rs.1190000"
+source1,ctc_unit_ambiguous,"Row 23 (R. Verma): CTC given as 6.1 -> treated as lakhs, converted to Rs.610000"
+source1,ctc_unit_ambiguous,"Row 25 (Nikhil Chopra): CTC given as 7.8 -> treated as lakhs, converted to Rs.780000"
+source1,ctc_unit_ambiguous,"Row 26 (Priya Saxena): CTC given as 6.6 -> treated as lakhs, converted to Rs.660000"
+source1,ctc_unit_ambiguous,"Row 29 (Rohit Verma): CTC given as 6.1 -> treated as lakhs, converted to Rs.610000"
+source1,ctc_unit_ambiguous,"Row 30 (Rohit Nair): CTC given as 7.6 -> treated as lakhs, converted to Rs.760000"
+source1,ctc_unit_ambiguous,"Row 32 (Rahul Chopra): CTC given as 2.7 -> treated as lakhs, converted to Rs.270000"
+source1,ctc_unit_ambiguous,"Row 34 (Amit Reddy): CTC given as 11.4 -> treated as lakhs, converted to Rs.1140000"
+source1,ctc_unit_ambiguous,"Row 35 (Nikhil Chopra): CTC given as 7.8 -> treated as lakhs, converted to Rs.780000"
+source1,ctc_unit_ambiguous,"Row 37 (Nikhil Mehta): CTC given as 9.3 -> treated as lakhs, converted to Rs.930000"
+source1,ctc_unit_ambiguous,"Row 38 (Isha Kapoor): CTC given as 5.9 -> treated as lakhs, converted to Rs.590000"
+source1,ctc_unit_ambiguous,"Row 40 (Isha Sharma): CTC given as 10.3 -> treated as lakhs, converted to Rs.1030000"
+source2,blank_row,"Raw line 12: completely empty row, dropped"
+source2,shifted_columns,Raw line 20: columns shifted (skills text landed in email column) -> realigned using the email found later in the row
+source2,rate_unit_mixed,Row 4 (Isha Kapoor): rate given as 15k/month (monthly) -> converted to Rs.93.75/hr assuming 160 working hrs/month
+source2,rate_unit_mixed,Row 8 (Rahul Chopra): rate given as 72k/month (monthly) -> converted to Rs.450.0/hr assuming 160 working hrs/month
+source2,rate_unit_mixed,Row 11 (Sneha Chopra): rate given as 28k/month (monthly) -> converted to Rs.175.0/hr assuming 160 working hrs/month
+source2,rate_unit_mixed,Row 13 (Gaurav Mehta): rate given as 56k/month (monthly) -> converted to Rs.350.0/hr assuming 160 working hrs/month
+source2,rate_unit_mixed,Row 14 (Neha Bhatia): rate given as 79k/month (monthly) -> converted to Rs.493.75/hr assuming 160 working hrs/month
+source2,rate_unit_mixed,Row 15 (Arjun Mehta): rate given as 42k/month (monthly) -> converted to Rs.262.5/hr assuming 160 working hrs/month
+source2,rate_unit_mixed,Row 16 (Manish Bhatia): rate given as 73k/month (monthly) -> converted to Rs.456.25/hr assuming 160 working hrs/month
+source2,rate_unit_mixed,Row 18 (Divya Chopra): rate given as 55k/month (monthly) -> converted to Rs.343.75/hr assuming 160 working hrs/month
+source2,rate_unit_mixed,Row 20 (Vikram Mehta): rate given as 22k/month (monthly) -> converted to Rs.137.5/hr assuming 160 working hrs/month
+source2,rate_unit_mixed,Row 21 (Pooja Kapoor): rate given as 21k/month (monthly) -> converted to Rs.131.25/hr assuming 160 working hrs/month
+source2,rate_unit_mixed,Row 23 (Tanvi Reddy): rate given as 59k/month (monthly) -> converted to Rs.368.75/hr assuming 160 working hrs/month
+source2,rate_unit_mixed,Row 25 (Tanvi Kapoor): rate given as 38k/month (monthly) -> converted to Rs.237.5/hr assuming 160 working hrs/month
+source2,rate_unit_mixed,Row 28 (Tanvi Sharma): rate given as 73k/month (monthly) -> converted to Rs.456.25/hr assuming 160 working hrs/month
+source2,rate_unit_mixed,Row 30 (Anjali Agarwal): rate given as 71k/month (monthly) -> converted to Rs.443.75/hr assuming 160 working hrs/month
+source3,duplicate_header_row,Raw line 16: header row repeated mid-file (looks like 2 exports concatenated together) -> dropped

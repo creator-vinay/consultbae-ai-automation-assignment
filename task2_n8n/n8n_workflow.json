@@ -1,0 +1,114 @@
+{
+  "name": "New Applicant Duplicate Check",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "new-csv",
+        "options": {}
+      },
+      "id": "1",
+      "name": "Webhook - New CSV",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [240, 300],
+      "webhookId": "new-csv-upload"
+    },
+    {
+      "parameters": {
+        "operation": "csv",
+        "binaryPropertyName": "data",
+        "options": {}
+      },
+      "id": "2",
+      "name": "Extract Rows From CSV",
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:5001/check",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { \"name\": $json.name, \"email\": $json.email, \"phone\": $json.phone } }}",
+        "options": {}
+      },
+      "id": "3",
+      "name": "Check Against Database",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [680, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "cond1",
+              "leftValue": "={{ $json.duplicate }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "4",
+      "name": "Is Duplicate?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [900, 300]
+    },
+    {
+      "parameters": {
+        "fromEmail": "alerts@consultbae-demo.local",
+        "toEmail": "={{ $env.ALERT_EMAIL }}",
+        "subject": "=Duplicate applicant detected: {{ $json.incoming_name }}",
+        "text": "=A new row came in that matches an existing person in the database.\n\nIncoming name: {{ $json.incoming_name }}\nMatched existing person ID: {{ $json.existing_person_id }}\nMatched existing name: {{ $json.existing_name }}\nMatched on: {{ $json.matched_on }}",
+        "options": {}
+      },
+      "id": "5",
+      "name": "Send Duplicate Alert Email",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [1120, 220],
+      "notes": "Fill in real SMTP credentials in n8n before running live. Swap for a Slack node if you'd rather alert in Slack."
+    },
+    {
+      "parameters": {},
+      "id": "6",
+      "name": "No Duplicate - Do Nothing",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [1120, 380]
+    }
+  ],
+  "connections": {
+    "Webhook - New CSV": {
+      "main": [[{ "node": "Extract Rows From CSV", "type": "main", "index": 0 }]]
+    },
+    "Extract Rows From CSV": {
+      "main": [[{ "node": "Check Against Database", "type": "main", "index": 0 }]]
+    },
+    "Check Against Database": {
+      "main": [[{ "node": "Is Duplicate?", "type": "main", "index": 0 }]]
+    },
+    "Is Duplicate?": {
+      "main": [
+        [{ "node": "Send Duplicate Alert Email", "type": "main", "index": 0 }],
+        [{ "node": "No Duplicate - Do Nothing", "type": "main", "index": 0 }]
+      ]
+    }
+  }
+}

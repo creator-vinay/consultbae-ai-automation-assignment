@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>All Submissions</title>
+  <style>
+    body { font-family: sans-serif; max-width: 900px; margin: 40px auto; padding: 0 16px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+    th, td { text-align: left; padding: 8px; border-bottom: 1px solid #ddd; font-size: 14px; }
+    audio { width: 200px; height: 32px; }
+    a.back { display: inline-block; margin-bottom: 10px; }
+  </style>
+</head>
+<body>
+  <a class="back" href="/">← Submit another</a>
+  <h2>All submissions ({{ rows|length }})</h2>
+  <table>
+    <tr>
+      <th>Name</th><th>Phone</th><th>Play</th><th>Duration (s)</th>
+      <th>Sample rate (kHz)</th><th>Bitrate (kbps)</th><th>Loudness (dB)</th>
+      <th>Quality</th><th>Submitted</th>
+    </tr>
+    {% for r in rows %}
+    <tr>
+      <td>{{ r['name'] }}</td>
+      <td>{{ r['phone'] }}</td>
+      <td><audio controls src="{{ url_for('uploaded_file', filename=r['filename']) }}"></audio></td>
+      <td>{{ r['duration_sec'] }}</td>
+      <td>{{ r['sample_rate_khz'] }}</td>
+      <td>{{ r['bitrate_kbps'] }}</td>
+      <td>{{ r['loudness_db'] }}</td>
+      <td>{{ r['quality_estimate'] }}</td>
+      <td>{{ r['submitted_at'][:19].replace('T', ' ') }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+</body>
+</html>
