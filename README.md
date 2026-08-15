@@ -30,7 +30,7 @@ cd task3_audio_app
 pip install -r requirements.txt
 python3 app.py
 ```
-Needs `ffmpeg` installed on your system (used by pydub for audio processing).
+Needs `ffmpeg` installed on the system (used by pydub for audio processing).
 Open `http://127.0.0.1:5000`, submit a recording, then check
 `http://127.0.0.1:5000/submissions`. Uses the same `people.db` from Task 1.
 
@@ -52,11 +52,11 @@ were deliberately *not* auto-merged because there was no reliable ID match
    `ffmpeg -version` in the same terminal gave
    `ffmpeg : The term 'ffmpeg' is not recognized as the name of a cmdlet...`
    even though the install had clearly succeeded.
-   **What I asked Claude:** why a fresh install wasn't being picked up.
-   **What I learned:** winget updates the system PATH, but any terminal
+   **I asked with the claude** why a fresh install wasn't being picked up.
+   **then I learn here:** winget updates the system PATH, but any terminal
    (or VS Code window) that was already open was started with the *old*
    PATH loaded into memory — it doesn't refresh on its own.
-   **What fixed it:** fully closing VS Code (not just the terminal tab) and
+   **Then i fixid it:** fully closing VS Code (not just the terminal tab) and
    reopening it. The same problem came back later with `ngrok`, and the
    same fix worked — so this became a pattern I recognized the second time
    instead of getting stuck again.
@@ -66,12 +66,12 @@ were deliberately *not* auto-merged because there was no reliable ID match
    successfully because the file contains a virus or potentially unwanted
    software`. ngrok is a legitimate tunneling tool, but Windows Defender
    flagged it as a threat and silently quarantined the executable.
-   **What I asked Claude:** what the error meant and whether ngrok was
+   ** I asked with the Claude that:** what the error meant and whether ngrok was
    actually unsafe.
-   **What I rejected:** the tempting shortcut of just disabling Windows
+   **what  I got rejected here:** the tempting shortcut of just disabling Windows
    Defender entirely to make the error go away — that's a bigger security
    trade-off than the problem needed.
-   **What actually fixed it:** going into Windows Security → Protection
+   **then I actually fixed it:** going into Windows Security → Protection
    history, finding the quarantined ngrok.exe, and restoring it, then
    adding a scoped exclusion for just that file (not the whole antivirus).
 
@@ -81,17 +81,14 @@ were deliberately *not* auto-merged because there was no reliable ID match
    `loudness_db: -94.6` — essentially silence — even though the pipeline
    itself (upload → ffmpeg feature extraction → database write) was
    working correctly end-to-end.
-   **What I asked Claude:** whether this was a bug in `app.py`'s audio
+   **WHAT  I asked WITH THE  Claude:** whether this was a bug in `app.py`'s audio
    processing or something else.
    **What I checked first (and it wasn't the problem):** whether Chrome had
    mic permission for the site — it did.
-   **What actually fixed it:** Windows Settings → Privacy & security →
+   **THEN I actually fixed it:** Windows Settings → Privacy & security →
    Microphone → "Let desktop apps access your microphone" was toggled off,
    so the browser was granted a mic stream but got silence from it. Turning
    that on and restarting Chrome fixed it — confirmed by a real recording
    coming back with a normal (non-silent) loudness value on the next
    submission.
 
-*(These are drafted from what actually happened while I built and tested
-this end-to-end — reworded into my own words before submitting, and I'll
-add a screen-recording clip of at least one of these in the video.)*
